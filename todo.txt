@@ -1,0 +1,48 @@
+TO DO:
+
+main.cc {
+	
+}
+
+die.h/die.cc {
+	
+}
+
+table.h/table.cc {
+	
+}
+
+player.h/player.cc {
+	
+}
+
+scoreboard.h/scoreboard.cc {
+	
+}
+
+NOTES:
+
+general {
+	[Dalton] Let's start putting what needs to get done in here and put your
+	name next to functions you're working on/have completed.
+}
+
+main.cc {
+	
+}
+
+die.h/die.cc {
+	
+}
+
+table.h/table.cc {
+	
+}
+
+player.h/player.cc {
+	
+}
+
+scoreboard.h/scoreboard.cc {
+	
+}
