@@ -1,0 +1,27 @@
+ +++++++++++++++++++++++++++++++++
+ _____ _    ____  _  ___     _____
+|  ___/ \  |  _ \| |/ / |   | ____|
+| |_ / _ \ | |_) | ' /| |   |  _|
+|  _/ ___ \|  _ <| . \| |___| |___
+|_|/_/   \_\_| \_\_|\_\_____|_____|
+
+ +++++++++++++++++++++++++++++++++
+
+For this project you will implement Farkle with a partner. I recommend splitting up the responsibilities between you and your partner, but each person is individually responsible for the WHOLE PROJECT.
+
+You will get one letter grade for each of these bullet points you implement:
+
+1) You must have a separate .h file for each of your classes. The .h files must contain only declarations, not definitions. If you have any function definitions in your .h files you will lose this letter grade.
+
+2) You must have a separate .cc file for each of your classes. The .cc files must contain the implementation details for the given class.
+
+For the above, you must implement these classes at a minimum: die (represents a single die), player (holds their score, dialogue, money, etc.), table (which holds the six dice, the wager up for winning, and the score for the current turn). You may implement an AI for extra credit.
+
+3) You must write a Makefile that will properly build your project.
+
+4) You must implement the rules of Farkle, as implemented in Kingdom Come: Deliverance. The rules can be found here: https://kingdom-come-deliverance.fandom.com/wiki/Dice. (Note that recent patches added a couple more ways of scoring, which you can choose to implement for extra credit.)
+
+5) You must implement a weighted dice system, and allow the user to select which dice he/she will use when playing Farkle. A fair die has equal odds for each of the six faces, but a weighted die might have the following odds: 1 (40%), 2 (10%), 3 (10%), 4 (10%), 5 (20%),  6 (10%). This would be quite a good die as 1s are valuable in Farkle.
+
+Extra credit will be available for going above and beyond the minimum requirements. I gave you some suggestions above. You can earn up to two letter grades of extra credit.
+
