@@ -25,6 +25,22 @@ int Die::get_roll() {
 }
 
 void Die::roll() {
-	//TODO: Implement weight system
-	last_roll = rand() % SIDES + 1;
+	double current_roll = (rand() % 99 + 1) / 100;
+	double low_bound = 0;
+
+	for (unsigned int i(0); i < weight.size(); i++) {
+		if (low_bound < current_roll && current_roll <= weight[i] + low_bound) {
+			last_roll = i + 1;
+			break;
+		}
+		low_bound += weight[i];
+	}
+}
+
+void Die::set_aside(bool toggle) {
+	aside = toggle;
+}
+
+bool Die::is_aside() {
+	return aside;
 }

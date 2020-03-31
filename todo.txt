@@ -5,19 +5,21 @@ main.cc {
 }
 
 die.h/die.cc {
-	
+	void roll() [Dalton]	
 }
 
 table.h/table.cc {
-	
+	Table(); [Dalton]
+	add_players(size_t players); [Dalton]
+	add_bots(size_t bots); // OPTIONAL!
 }
 
 player.h/player.cc {
-	
-}
-
-scoreboard.h/scoreboard.cc {
-	
+	Player(std::string new_name); [Dalton]
+	Player(std::string new_name, std::vector<double> new_weights, unsigned int
+	new_sides); [Dalton]
+	void set_aside(std::vector<unsigned int> scoring_dice); [Dalton]
+	void roll() [Dalton]
 }
 
 NOTES:
@@ -40,9 +42,5 @@ table.h/table.cc {
 }
 
 player.h/player.cc {
-	
-}
-
-scoreboard.h/scoreboard.cc {
-	
+	Player::roll() runs Die::roll() on all dice still in play (not set aside).
 }
