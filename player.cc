@@ -26,7 +26,7 @@ bool Player::is_human() {
 	return humanity;
 }
 
-unsigned int get_score() {
+unsigned int Player::get_score() {
 	return score;
 }
 
@@ -36,7 +36,7 @@ void Player::set_aside(std::vector<unsigned int> scoring_dice) {
 	}
 }
 
-void Player::roll() {
+bool Player::roll() {
 	bool busted = true;
 
 	for (unsigned int i(0); i < 6; i++) {
@@ -47,12 +47,12 @@ void Player::roll() {
 		if (dice.at(i).is_aside() == false) {
 			unsigned int count = 0;
 			for (unsigned int x(0); x < 6; x++) {
-				if (x != i && dice.at(i).get_roll() == dice.at(x).get_roll()) count++
+				if (x != i && dice.at(i).get_roll() == dice.at(x).get_roll()) count++;
 			}
 			if (count >= 3) busted = false;
 		}
 	}
-	if (busted == true) end_turn(busted);
+	return busted;
 }
 
 void Player::print_dice() {
@@ -66,10 +66,11 @@ void Player::print_dice() {
 void Player::end_turn(bool busted) {
 	unsigned int points = 0;
 	if (busted == false) {
-		std::vector<unsigned int> count(6) {0};
+		std::vector<unsigned int> count;
+		for (int i(0); i < 6; i++) count.push_back(0);
 		
 		for (unsigned int i(0); i < 6; i++) {
-			count.at(dice.at(i) - 1)++;
+			count.at(dice.at(i).get_roll() - 1)++;
 		}
 		
 		for (unsigned int i(0); i < 6; i++) {

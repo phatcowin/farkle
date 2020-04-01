@@ -38,7 +38,7 @@ int main() {
 
 	// Step 1: Set up game.
 	srand(time(0));
-	FTable table();
+	FTable table;
 
 	bool is_fair;
 	cout << "Should all players have equally weighted dice?\n"

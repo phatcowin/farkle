@@ -2,17 +2,19 @@
 #include <vector>
 #include "player.h"
 
-FTable::Table() {
+FTable::FTable() {
 	target_score = 2000;
 	size = 0;
 }
 
 void FTable::add_player(std::string new_name) {
-	players.emplace_back({new_name, true});
+	Player temp(new_name, true);
+	players.push_back(temp);
 }
 
 void FTable::add_player(std::string new_name, std::vector<double> new_weights) {
-	players.emplace_back({new_name, true, new_weights, 6});
+	Player temp(new_name, true, new_weights, 6);
+	players.push_back(temp);
 }
 
 //bool Table::add_bots(unsigned int bot_count) {

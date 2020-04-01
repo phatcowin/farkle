@@ -14,7 +14,7 @@ class Player {
 		bool is_human();
 		unsigned int get_score();
 		void set_aside(std::vector<unsigned int> scoring_dice);
-		void roll(); // Rolls all dice not set aside. If no scoring dice are rolled, the players turn ends automatically.
+		bool roll(); // Rolls all dice not set aside. Returns true if the player busted. Hint: if (player.roll() == true) player.end_turn(true);
 		void print_dice();
-		void end_turn(); // Increments score and resets all aside values to false.
+		void end_turn(bool busted); // Increments score and resets all aside values to false.
 };
