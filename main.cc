@@ -29,7 +29,7 @@ using namespace std;
 */
 
 int main() {
-	cout << "                  Cowin & Davison's\n"
+	cout << "Cowin & Davison's\n"
 		 << " _____ _    ____  _  ___     _____\n"
 		 << "|  ___/ \\  |  _ \\| |/ / |   | ____|\n"
 		 << "| |_ / _ \\ | |_) | ' /| |   |  _|\n"
