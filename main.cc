@@ -61,7 +61,7 @@ int main() {
 
 	string name;
 	for (unsigned int i(0); i < player_count; i++) {
-		cout << "Player " << i << "\'s name: ";
+		cout << "Player " << i + 1 << "\'s name: ";
 		cin >> name;
 		while (!cin) {
 			cout << "Bad input, try again: ";
