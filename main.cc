@@ -41,10 +41,14 @@ int main() {
 	FTable table();
 
 	bool is_fair;
-	cout << "Would you like to play with weighted dice?\n"
-		 << "0. Yes.\n"
-		 << "1. No.\n";
+	cout << "Should all players have equally weighted dice?\n"
+		 << "0. No.\n"
+		 << "1. Yes.\n";
 	cin >> is_fair;
+	while (!cin) {
+		cout << "Bad input, try again: ";
+		cin >> is_fair;
+	}
 
 	unsigned int player_count;
 	cout << "Please enter a number of human players: ";
