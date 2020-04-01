@@ -1,19 +1,10 @@
 // cowin && davison
 #include <iostream>
-#include "die.h"
+#include <string>
+#include <vector>
+#include <time.h>
+#include "table.h"
 using namespace std;
-/*
-int main() {
-	srand(time(0));
-	cout << "Hello World!\n";
-	Die d({.5,.1,.1,.1,.1,.1},6);
-	Die d2;
-	d.roll();
-	d2.roll();
-	cout << d.get_roll() << endl;
-	cout << d2.get_roll() << endl;
-}
-*/
 /*
 	Farkle Steps:
 	1:	Set up game.
@@ -38,10 +29,6 @@ int main() {
 */
 
 int main() {
-	Table table();
-	size_t players;
-	srand(time(0));
-
 	cout << "                  Cowin & Davison's\n"
 		 << " _____ _    ____  _  ___     _____\n"
 		 << "|  ___/ \\  |  _ \\| |/ / |   | ____|\n"
@@ -50,15 +37,63 @@ int main() {
 		 << "|_|/_/   \\_\\_| \\_\\_|\\_\\_____|_____|\n\n";
 
 	// Step 1: Set up game.
-	// Step 1.1: Set number of players.
+	srand(time(0));
+	FTable table();
+
+	bool is_fair;
+	cout << "Would you like to play with weighted dice?\n"
+		 << "0. Yes.\n"
+		 << "1. No.\n";
+	cin >> is_fair;
+
+	unsigned int player_count;
 	cout << "Please enter a number of human players: ";
-	cin >> players;
-	table.set_players(players);
+	cin >> player_count;
+	while (player_count < 1) {
+		cout << "There must be at least one player!\n"
+			 << "Please enter a number of human players: ";
+		cin >> player_count;
+	}
+
+	string name;
+	for (unsigned int i(0); i < player_count; i++) {
+		cout << "Player " << i << "\'s name: ";
+		cin >> name;
+		while (!cin) {
+			cout << "Bad input, try again: ";
+			cin >> name;
+		}
+		if (is_fair == true) table.add_player(name);
+		else {
+			vector<double> weights;
+			cout << "Load your dice! Enter 6 decimals with a sum of 1.\n";
+			for (unsigned int x(0); x < 6; x++) {
+				cout << "Weight for side " << x + 1 << ": ";
+				cin >> weights.at(x);
+				while (!cin) {
+					cout << "Bad input, try again: ";
+					cin >> weights.at(x);
+				}
+			}
+			while (weights.at(0) + weights.at(1) + weights.at(2) + weights.at(3) + weights.at(4) + weights.at(5) != 1) {
+				cout << "The sum of the inputs was not 1, try again.\n";
+				for (unsigned int x(0); x < 6; x++) {
+					cout << "Weight for side " << x + 1 << ": ";
+					cin >> weights.at(x);
+					while (!cin) {
+						cout << "Bad input, try again: ";
+						cin >> weights.at(x);
+					}
+				}
+			}
+			table.add_player(name, weights);
+		}
+	}
 	
 	// Step 1.2: Set number of bots. (optional)
-	cout << "Please enter a number of computer players: ";
-	cin >> players;
-	table.set_bots(players);
+	//cout << "Please enter a number of computer players: ";
+	//cin >> player_count;
+	//table.add_bots(player_count);
 
 	// Step 2: Player turn loop.
 	

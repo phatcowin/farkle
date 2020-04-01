@@ -1,46 +1,36 @@
-TO DO:
-
 main.cc {
 	
 }
 
 die.h/die.cc {
-	void roll() [Dalton]	
+	Die(); [Kerney]
+	Die(std::vector<double> new_weights, const int new_sides); [Kerney]
+	int get_roll(); [Kerney]
+	void roll(); [Dalton]
+	set_aside(bool toggle); [Dalton]
+	is_aside(); [Dalton]
 }
 
 table.h/table.cc {
 	Table(); [Dalton]
-	add_players(size_t players); [Dalton]
-	add_bots(size_t bots); // OPTIONAL!
+	void add_player(std::string new_name); [Dalton]
+	void add_player(std::string new_name, std::vector<double> new_weights)
+	void add_bot(unsigned int bot_count); // OPTIONAL!
+	void set_target(unsigned int new_target_score); [Dalton]
+	unsigned int get_target(); [Dalton]
+	
 }
 
 player.h/player.cc {
-	Player(std::string new_name); [Dalton]
-	Player(std::string new_name, std::vector<double> new_weights, unsigned int
+	Player(std::string new_name, bool new_humanity); [Dalton]
+	Player(std::string new_name, bool new_humanity, std::vector<double> new_weights, unsigned int
 	new_sides); [Dalton]
+	bool is_human(); [Dalton]
+	unsigned int get_score(); [Dalton]
 	void set_aside(std::vector<unsigned int> scoring_dice); [Dalton]
-	void roll() [Dalton]
+	void roll(); [Dalton]
+	void print_dice(); [Dalton]
+	void end_turn(); [Dalton]
 }
 
-NOTES:
-
-general {
-	[Dalton] Let's start putting what needs to get done in here and put your
-	name next to functions you're working on/have completed.
-}
-
-main.cc {
-	
-}
-
-die.h/die.cc {
-	
-}
-
-table.h/table.cc {
-	
-}
-
-player.h/player.cc {
-	Player::roll() runs Die::roll() on all dice still in play (not set aside).
-}
+Makefile [Dalton]

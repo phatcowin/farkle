@@ -11,7 +11,7 @@ class Die {
 		const unsigned int SIDES;
 		vector<double> weight;
 		unsigned int last_roll;
-		bool aside(false);
+		bool aside;
 	public:
 		Die(); //Create a fair die
 		Die(vector<double> new_weights, int new_sides); //Create a cheater die

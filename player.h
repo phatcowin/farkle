@@ -1,16 +1,20 @@
 #pragma once
 #include <vector>
+#include "die.h"
 
 class Player {
 	private:
 		std::string name;
 		unsigned int score;
 		std::vector<Die> dice;
-		std::vector<unsigned int> pile; // Stores dice that are set aside
+		bool humanity;
 	public:
-		Player(std::string new_name);
-		Player(std::string new_name, std::vector<double> new_weights, unsigned int sides);
+		Player(std::string new_name, bool new_humanity);
+		Player(std::string new_name, bool new_humanity, std::vector<double> new_weights, unsigned int sides);
+		bool is_human();
+		unsigned int get_score();
 		void set_aside(std::vector<unsigned int> scoring_dice);
-		void roll(); // Rolls all dice not set aside.
+		void roll(); // Rolls all dice not set aside. If no scoring dice are rolled, the players turn ends automatically.
 		void print_dice();
+		void end_turn(); // Increments score and resets all aside values to false.
 };

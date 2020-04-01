@@ -2,12 +2,12 @@
 #include <cassert>
 using namespace std;
 
-Die::Die() : SIDES(6), last_roll(0) {
+Die::Die() : SIDES(6), last_roll(0) aside(false) {
 	for (unsigned int i = 0; i < SIDES; i++)
 		weight.push_back(1.0/SIDES);
 }
 
-Die::Die(vector<double> new_weights, const int new_sides) : SIDES(new_sides), last_roll(0) {
+Die::Die(vector<double> new_weights, const int new_sides) : SIDES(new_sides), last_roll(0) aside(false) {
 	assert(new_sides >= 4);
 	assert(new_weights.size() == SIDES);
 	double sum = 0;
