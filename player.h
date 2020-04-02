@@ -9,6 +9,7 @@ class Player {
 		std::vector<Die> dice;
 		bool humanity;
 		bool at_table;
+		unsigned int risk_index;
 	public:
 		Player(std::string new_name, bool new_humanity);
 		Player(std::string new_name, bool new_humanity, std::vector<double> new_weights, unsigned int sides);
@@ -30,4 +31,6 @@ class Player {
 		unsigned int adjust_wallet(unsigned int i, bool increase);
 		bool check_seat();
 		void check_funds();
+		bool scoring(unsigned int roll);
+		unsigned int get_risk();
 };

@@ -10,6 +10,7 @@ Player::Player(std::string new_name, bool new_humanity) {
 	humanity = new_humanity;
 	wallet = 1000;
 	at_table = true;
+	risk_index = (rand() % 5 + 4) * 100;
 	if (humanity == false) std::cout << name << " created!\n";
 	for (int i(0); i < 6; i++) {
 		dice.emplace_back();
@@ -22,6 +23,7 @@ Player::Player(std::string new_name, bool new_humanity, std::vector<double> new_
 	humanity = new_humanity;
 	wallet = 1000;
 	at_table = true;
+	risk_index = (rand() % 5 + 4) * 100;
 	for (int i(0); i < 6; i++) {
 		dice.emplace_back(new_weights, new_sides);
 	}
@@ -194,4 +196,19 @@ void Player::check_funds() {
 
 bool Player::check_seat() {
 	return at_table;
+}
+
+bool Player::scoring(unsigned int roll) {
+	if (roll == 5 || roll == 1) return true;
+
+	int count = 0;
+	for (unsigned int i(0); i < 6; i++) {
+		if (dice.at(i).get_roll() == roll) count++;
+	}
+	if (count >= 3) return true;
+	else return false;
+}
+
+unsigned int Player::get_risk() {
+	return risk_index;
 }

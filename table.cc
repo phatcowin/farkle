@@ -5,6 +5,11 @@
 #include "player.h"
 #include "colors.h"
 
+//const int BOT_TIMEOUT_1 = 2000000;
+//const int BOT_TIMEOUT_2 = 500000;
+const int BOT_TIMEOUT_1 = 0;
+const int BOT_TIMEOUT_2 = 0;
+
 FTable::FTable() {
 	target_score = 2000;
 	size = 0;
@@ -56,6 +61,7 @@ std::string FTable::start_round(unsigned int wager) {
 		if (players.at(i).get_wallet() == 0) std::cout << RED << players.at(i).get_name() << " is broke!\n" << RESET;
 	}
 	for (int player_loop(0); players.at(player_loop).get_score() < target_score; player_loop++) {
+		bool player_busted = false;
 		if (players.at(player_loop).check_seat() == false) continue;
 
 		unsigned int win_condition = target_score - players.at(player_loop).get_score();
@@ -69,6 +75,7 @@ std::string FTable::start_round(unsigned int wager) {
 		players.at(player_loop).roll();
 		players.at(player_loop).print_dice();
 		if (players.at(player_loop).round_score() < 50) {
+			player_busted == true;
 			std::cout << RED << players.at(player_loop).get_name() << " farkled!\n" << RESET;
 			players.at(player_loop).end_turn(true);
 			if (player_loop >= size - 1) player_loop = -1;
@@ -76,13 +83,15 @@ std::string FTable::start_round(unsigned int wager) {
 		} 
 		bool continue_turn = true;
 		bool bot_phase = 0;
+		bool selected = false;
 		while (continue_turn == true) { // player turn
 			unsigned int input;
 			std::cout << "Points: " << players.at(player_loop).round_score() << "\n\n"
 					  << "What would you like to do?\n"
 					  << "0. Set dice aside.\n"
 					  << "1. Roll active dice.\n";
-			if (players.at(player_loop).round_score() >= win_condition) std::cout << YELLOW;
+			if (players.at(player_loop).round_score() >= win_condition && selected == true) std::cout << YELLOW;
+			else if (selected == false) std::cout << RED;
 			std::cout << "2. Score in.\n"
 					  << CYAN
 					  << "input> ";
@@ -90,7 +99,7 @@ std::string FTable::start_round(unsigned int wager) {
 			
 			// AI FOR MAIN MENU
 			else {
-				if (players.at(player_loop).round_score() < 700 && players.at(player_loop).round_score() < target_score) {
+				if (players.at(player_loop).round_score() < players.at(player_loop).get_risk() && players.at(player_loop).round_score() < target_score && players.at(player_loop).aside_count() < 4) {
 					if (fresh_roll == true) {
 						input = 0;
 						fresh_roll = false;
@@ -99,12 +108,18 @@ std::string FTable::start_round(unsigned int wager) {
 						input = 1;
 						fresh_roll = true;
 					}
-				} else input = 2;
-				usleep(2000000);
+				} else {
+					input = 0;
+					if (selected == true) input = 2;
+				}
+				//usleep(BOT_TIMEOUT_1);
 				std::cout << input << endl;
-				usleep(500000);
+				//usleep(BOT_TIMEOUT_2);
 			}
-			
+			while (input == 2 && selected == false) {
+				std::cout << RED << "You must select at least one die before scoring in!\n" << CYAN << "input> " << RESET;
+				std::cin >> input;
+			}
 			for (int i(0); input < 0 || input > 2; i++) {
 				if (i > 20) {
 					input = 0;
@@ -113,10 +128,12 @@ std::string FTable::start_round(unsigned int wager) {
 				std::cout << RED << "Invalid input. Try again.\n" << CYAN << "input> ";
 				std::cin >> input;
 			}
+
 			std::cout << RESET;
 
 			cout << endl;
 			if (input == 0) {
+				int grab_all = 0;
 				do {
 					players.at(player_loop).print_dice();
 					std::cout << "Which die number would you like to set aside?\n"
@@ -127,10 +144,35 @@ std::string FTable::start_round(unsigned int wager) {
 					// AI FOR CHOOSING DICE
 					else {
 						input = 0;
-						for (int i(0); i < 6; i++) if (players.at(player_loop).get_die(i) == 1 && players.at(player_loop).is_aside(i) == false) input = i +1;
-						usleep(2000000);
+						bool found_selection = false;
+						for (int i(0); i < 6; i++) {
+							if (players.at(player_loop).aside_count() >= 3 && selected == true && grab_all == 0) break;
+							if (grab_all == players.at(player_loop).get_die(i) && players.at(player_loop).is_aside(i) == false) {
+								input = i + 1;
+								found_selection = true;
+							}
+							else if (players.at(player_loop).get_die(i) == 1 && players.at(player_loop).is_aside(i) == false) {
+								input = i + 1;
+								found_selection = true;
+							}
+							else if (found_selection == false && selected == false) {
+								if (players.at(player_loop).get_die(i) == 5 && players.at(player_loop).is_aside(i) == false) {
+									input = i + 1;
+									found_selection = true;
+								}
+								else if (found_selection == false && selected == false) { 
+									if (players.at(player_loop).is_aside(i) == false && players.at(player_loop).scoring(players.at(player_loop).get_die(i)) == true) {
+										std::cout << "Grabbing all " << players.at(player_loop).get_die(i) << "\'s!\n";
+										grab_all = players.at(player_loop).get_die(i);
+										input = i + 1;
+										found_selection = true;
+									}
+								}
+							}
+						}
+						//usleep(BOT_TIMEOUT_1);
 						std::cout << input << endl;
-						usleep(500000);
+						//usleep(BOT_TIMEOUT_2);
 					}
 
 					std::cout << std::endl;
@@ -139,18 +181,25 @@ std::string FTable::start_round(unsigned int wager) {
 						std::cin >> input;
 					}
 					std::cout << RESET;
-					if (input > 0) players.at(player_loop).set_aside(input);
+					if (input > 0) {
+						players.at(player_loop).set_aside(input);
+						selected = true;
+					}
 				} while (input != 0);
 			}
 
 			else if (input == 1) {
 				if (players.at(player_loop).roll() == true) {
+					player_busted = true;
 					players.at(player_loop).print_dice();
 					std::cout << RED << players.at(player_loop).get_name() << " farkled!\n" << RESET;
 					players.at(player_loop).end_turn(true);
 					continue_turn = false;
-				} else {
+					break;
+				} 
+				else {
 					players.at(player_loop).print_dice();
+					selected = false;
 				}
 			} 
 			
@@ -160,7 +209,10 @@ std::string FTable::start_round(unsigned int wager) {
 				continue_turn = false;
 			}
 		}
-		if (continue_turn == false) std::cout << std::endl << players.at(player_loop).get_name() << " earned: " << players.at(player_loop).round_score() << " points.\n" << players.at(player_loop).get_name() << "\'s score: " << players.at(player_loop).get_score() << " points.\n";
+		if (continue_turn == false) std::cout << std::endl << players.at(player_loop).get_name() << " earned: ";
+		if (player_busted == false) std::cout << players.at(player_loop).round_score();
+		else std::cout << 0;
+		std::cout << " points.\n" << players.at(player_loop).get_name() << "\'s score: " << players.at(player_loop).get_score() << " points.\n";
 		if (players.at(player_loop).get_score() >= target_score) {
 			players.at(player_loop).adjust_wallet(pot, true);
 			return players.at(player_loop).get_name();
