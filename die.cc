@@ -22,17 +22,17 @@ Die::Die(vector<double> new_weights, const int new_sides) : SIDES(new_sides), la
 }
 
 int Die::get_roll() {
-	assert(last_roll >= 1 && last_roll <= SIDES);
 	return last_roll;
 }
 
 void Die::roll() {
-	double current_roll = (rand() % 99 + 1) / 100;
+	double current_roll = (rand() % 99 + 1) / 100.00;
 	double low_bound = 0;
 
 	for (unsigned int i(0); i < weight.size(); i++) {
 		if (low_bound < current_roll && current_roll <= weight[i] + low_bound) {
 			last_roll = i + 1;
+			assert(last_roll >= 1 && last_roll <= SIDES);
 			break;
 		}
 		low_bound += weight[i];
