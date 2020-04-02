@@ -1,6 +1,7 @@
 #include "table.h"
 #include <vector>
 #include <cassert>
+#include <unistd.h>
 #include "player.h"
 #include "colors.h"
 
@@ -99,7 +100,9 @@ std::string FTable::start_round(unsigned int wager) {
 						fresh_roll = true;
 					}
 				} else input = 2;
+				usleep(2000000);
 				std::cout << input << endl;
+				usleep(500000);
 			}
 			
 			for (int i(0); input < 0 || input > 2; i++) {
@@ -125,7 +128,9 @@ std::string FTable::start_round(unsigned int wager) {
 					else {
 						input = 0;
 						for (int i(0); i < 6; i++) if (players.at(player_loop).get_die(i) == 1 && players.at(player_loop).is_aside(i) == false) input = i +1;
+						usleep(2000000);
 						std::cout << input << endl;
+						usleep(500000);
 					}
 
 					std::cout << std::endl;
