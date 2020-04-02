@@ -191,6 +191,10 @@ int main() {
 	cout << "Please enter a number of computer players.\n" << CYAN << "input> ";
 	cin >> player_count;
 	cout << RESET;
+	if (table.get_size() == 0 && player_count == 0) {
+		cout << RED << "There are no players. Exiting game...\n" << RESET;
+		return 1;
+	}
 	while (player_count >= 10) {
 		cout << RED << "Arbitrary 9 bot limit! Try again.\n" << CYAN << "input> ";
 		cin >> player_count;

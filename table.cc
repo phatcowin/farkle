@@ -21,7 +21,7 @@ void FTable::add_player(std::string new_name, std::vector<double> new_weights) {
 	size++;
 }
 
-bool FTable::add_bot(std::string new_name, std::vector<double> new_weights) {
+void FTable::add_bot(std::string new_name, std::vector<double> new_weights) {
 	Player temp(new_name, false, new_weights, 6);
 	players.push_back(temp);
 	size++;
@@ -158,11 +158,11 @@ std::string FTable::start_round(unsigned int wager) {
 		if (continue_turn == false) std::cout << std::endl << players.at(player_loop).get_name() << " earned: " << players.at(player_loop).round_score() << " points.\n" << players.at(player_loop).get_name() << "\'s score: " << players.at(player_loop).get_score() << " points.\n";
 		if (players.at(player_loop).get_score() >= target_score) {
 			players.at(player_loop).adjust_wallet(pot, true);
-			std::cout << "Adjusting " << players.at(player_loop).get_name() << " by " << pot << std::endl;
 			return players.at(player_loop).get_name();
 		}
 		if (player_loop >= size - 1) player_loop = -1;
 	}
+	return "Nobody";
 }
 
 void FTable::reset() {

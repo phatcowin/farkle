@@ -12,7 +12,7 @@ class FTable {
 		FTable();
 		void add_player(std::string new_name);
 		void add_player(std::string new_name, std::vector<double> new_weights);
-		bool add_bot(std::string new_name, std::vector<double> new_weights);
+		void  add_bot(std::string new_name, std::vector<double> new_weights);
 		void set_target(unsigned int new_target_score);
 		unsigned int get_target();
 		unsigned int get_size();
