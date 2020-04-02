@@ -1,5 +1,5 @@
 a.out: main.o die.o table.o player.o
-	g++ main.o die.o table.o player.o
+	g++ main.o die.o table.o player.o -O3
 
 main.o: main.cc table.h
 	g++ -c main.cc
