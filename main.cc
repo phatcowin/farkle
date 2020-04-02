@@ -95,9 +95,14 @@ int main() {
 
 	string name;
 	for (unsigned int i(0); i < player_count; i++) {
-		cout << "Enter a name for player " << i + 1 << "\n" << CYAN << "inputv" << endl;
+		cout << "Enter a name for Player " << i + 1 << "\n" << CYAN << "inputv" << endl;
 		name = "";
 		while (name == "") getline(cin, name);
+		while (table.name_available(name) == false) {
+			cout << RED << name << " is taken. Try again.\n" << CYAN << "inputv" << endl;
+			name = "";
+			while (name == "") getline(cin, name);
+		}
 		cout << RESET;
 		if (is_fair == true) table.add_player(name);
 		else {

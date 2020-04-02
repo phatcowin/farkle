@@ -5,10 +5,8 @@
 #include "player.h"
 #include "colors.h"
 
-//const int BOT_TIMEOUT_1 = 2000000;
-//const int BOT_TIMEOUT_2 = 500000;
-const int BOT_TIMEOUT_1 = 0;
-const int BOT_TIMEOUT_2 = 0;
+const int BOT_TIMEOUT_1 = 2000000;
+const int BOT_TIMEOUT_2 = 750000;
 
 FTable::FTable() {
 	target_score = 2000;
@@ -78,6 +76,7 @@ std::string FTable::start_round(unsigned int wager) {
 			player_busted == true;
 			std::cout << RED << players.at(player_loop).get_name() << " farkled!\n" << RESET;
 			players.at(player_loop).end_turn(true);
+			usleep(BOT_TIMEOUT_1);
 			if (player_loop >= size - 1) player_loop = -1;
 			continue;
 		} 
@@ -112,12 +111,12 @@ std::string FTable::start_round(unsigned int wager) {
 					input = 0;
 					if (selected == true) input = 2;
 				}
-				//usleep(BOT_TIMEOUT_1);
+				usleep(BOT_TIMEOUT_1);
 				std::cout << input << endl;
-				//usleep(BOT_TIMEOUT_2);
+				usleep(BOT_TIMEOUT_2);
 			}
 			while (input == 2 && selected == false) {
-				std::cout << RED << "You must select at least one die before scoring in!\n" << CYAN << "input> " << RESET;
+				std::cout << RED << "You must set at least one die aside first!\n" << CYAN << "input> " << RESET;
 				std::cin >> input;
 			}
 			for (int i(0); input < 0 || input > 2; i++) {
@@ -162,7 +161,6 @@ std::string FTable::start_round(unsigned int wager) {
 								}
 								else if (found_selection == false && selected == false) { 
 									if (players.at(player_loop).is_aside(i) == false && players.at(player_loop).scoring(players.at(player_loop).get_die(i)) == true) {
-										std::cout << "Grabbing all " << players.at(player_loop).get_die(i) << "\'s!\n";
 										grab_all = players.at(player_loop).get_die(i);
 										input = i + 1;
 										found_selection = true;
@@ -170,9 +168,9 @@ std::string FTable::start_round(unsigned int wager) {
 								}
 							}
 						}
-						//usleep(BOT_TIMEOUT_1);
+						usleep(BOT_TIMEOUT_1);
 						std::cout << input << endl;
-						//usleep(BOT_TIMEOUT_2);
+						usleep(BOT_TIMEOUT_2);
 					}
 
 					std::cout << std::endl;
@@ -195,6 +193,7 @@ std::string FTable::start_round(unsigned int wager) {
 					std::cout << RED << players.at(player_loop).get_name() << " farkled!\n" << RESET;
 					players.at(player_loop).end_turn(true);
 					continue_turn = false;
+					usleep(BOT_TIMEOUT_1);
 					break;
 				} 
 				else {
@@ -213,6 +212,7 @@ std::string FTable::start_round(unsigned int wager) {
 		if (player_busted == false) std::cout << players.at(player_loop).round_score();
 		else std::cout << 0;
 		std::cout << " points.\n" << players.at(player_loop).get_name() << "\'s score: " << players.at(player_loop).get_score() << " points.\n";
+		usleep(BOT_TIMEOUT_1);
 		if (players.at(player_loop).get_score() >= target_score) {
 			players.at(player_loop).adjust_wallet(pot, true);
 			return players.at(player_loop).get_name();
@@ -261,4 +261,9 @@ void FTable::check_seats() {
 	for (unsigned int i(0); i < size; i++) {
 		players.at(i).check_funds();
 	}
+}
+
+bool FTable::name_available(std::string name) {
+	for (unsigned int i(0); i < size; i++) if (players.at(i).get_name() == name) return false;
+	return true;
 }

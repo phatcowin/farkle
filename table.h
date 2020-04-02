@@ -24,4 +24,5 @@ class FTable {
 		unsigned int remaining_players();
 		unsigned int check_pot();
 		void check_seats();
+		bool name_available(std::string name);
 };
