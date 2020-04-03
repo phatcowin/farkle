@@ -87,10 +87,10 @@ std::string FTable::start_round(unsigned int wager) {
 			unsigned int input;
 			std::cout << "Points: " << players.at(player_loop).round_score() << "\n\n"
 					  << "What would you like to do?\n"
-					  << "0. Set dice aside.\n"
-					  << "1. Roll active dice.\n";
-			if (players.at(player_loop).round_score() >= win_condition && selected == true) std::cout << YELLOW;
-			else if (selected == false) std::cout << RED;
+					  << "0. Set dice aside.\n";
+			if (selected == false) std::cout << RED;
+			std::cout << "1. Roll active dice.\n" << RESET;
+			if (players.at(player_loop).round_score() >= win_condition) std::cout << YELLOW;
 			std::cout << "2. Score in.\n"
 					  << CYAN
 					  << "input> ";
@@ -104,18 +104,21 @@ std::string FTable::start_round(unsigned int wager) {
 						fresh_roll = false;
 					} 
 					else {
-						input = 1;
-						fresh_roll = true;
+						if (players.at(player_loop).aside_count() == 3) input = 2;
+						else {
+							input = 1;
+							fresh_roll = true;
+						}
 					}
-				} else {
-					input = 0;
-					if (selected == true) input = 2;
+				} 
+				else {
+					input = 2;
 				}
 				usleep(BOT_TIMEOUT_1);
 				std::cout << input << endl;
 				usleep(BOT_TIMEOUT_2);
 			}
-			while (input == 2 && selected == false) {
+			while (input == 1 && selected == false) {
 				std::cout << RED << "You must set at least one die aside first!\n" << CYAN << "input> " << RESET;
 				std::cin >> input;
 			}

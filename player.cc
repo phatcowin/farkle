@@ -10,7 +10,7 @@ Player::Player(std::string new_name, bool new_humanity) {
 	humanity = new_humanity;
 	wallet = 1000;
 	at_table = true;
-	risk_index = (rand() % 5 + 4) * 100;
+	risk_index = (rand() % 10 + 4) * 50;
 	if (humanity == false) std::cout << name << " created!\n";
 	for (int i(0); i < 6; i++) {
 		dice.emplace_back();
